@@ -43,8 +43,10 @@ class PhotoProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
-
-  Future<void> refreshPhotos() async {
-    await fetchInitialPhotos();
-  }
+Future<void> refreshPhotos() async {
+  _page = 1 + DateTime.now().millisecond % 5;
+  _photos.clear();
+  _hasMore = true;
+  await fetchMorePhotos();
+}
 }

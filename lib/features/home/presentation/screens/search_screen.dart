@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pinterest_clone/features/home/presentation/widgets/pinterest_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -63,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 builder: (context, provider, _) {
                   if (provider.isLoading) {
                     return const Center(
-                        child: CircularProgressIndicator());
+                        child: PinterestLoader(size: 45,));
                   }
 
                   if (provider.results.isEmpty) {

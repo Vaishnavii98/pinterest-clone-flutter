@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:pinterest_clone/features/home/presentation/provider/saved_provider.dart';
-import 'package:pinterest_clone/features/home/presentation/provider/search_provider.dart';
-import 'package:pinterest_clone/features/home/presentation/screens/main_shell_screen.dart';
-import 'package:pinterest_clone/features/home/presentation/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:clerk_flutter/clerk_flutter.dart';
+
 import 'features/home/presentation/provider/photo_provider.dart';
+import 'features/home/presentation/provider/search_provider.dart';
+import 'features/home/presentation/provider/saved_provider.dart';
+import 'features/home/presentation/screens/main_shell_screen.dart';
 
 void main() {
-  runApp(const PinterestCloneApp());
+  runApp(
+    ClerkAuth(
+      config: ClerkAuthConfig(
+        publishableKey: 'pk_test_c3RpbGwtcmFtLTY3LmNsZXJrLmFjY291bnRzLmRldiQ',
+      ),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class PinterestCloneApp extends StatelessWidget {
-  const PinterestCloneApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +28,25 @@ class PinterestCloneApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => PhotoProvider()..fetchInitialPhotos(),
         ),
-        ChangeNotifierProvider(create: (_)=> SearchProvider(),),
-        ChangeNotifierProvider(create: (_)=> SavedProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => SavedProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Pinterest Clone',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          useMaterial3: true,
+        home: ClerkAuthBuilder(
+          builder: (context, authState) {
+
+            if (authState.session != null) {
+              return const MainShellScreen();
+            }
+
+            return const Scaffold(
+              body: SafeArea(
+                child: ClerkAuthentication(),
+              ),
+            );
+          },
         ),
-        home: const SplashScreen(),
       ),
     );
   }

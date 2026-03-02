@@ -56,8 +56,8 @@ class _MainShellScreenState extends State<MainShellScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               _currentIndex == 2
-                  ? Icons.bookmark
-                  : Icons.bookmark_border,
+                  ? Icons.person_2_rounded
+                  : Icons.person_2_outlined,
             ),
             label: '',
           ),

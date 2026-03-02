@@ -22,24 +22,35 @@ class PexelsService {
 
     final List photosJson = response.data['photos'];
 
-    return photosJson
-        .map((json) => PhotoModel.fromJson(json))
-        .toList();
+    return photosJson.map((json) => PhotoModel.fromJson(json)).toList();
   }
+
   Future<List<PhotoModel>> searchPhotos(String query, {int page = 1}) async {
-  final response = await _dio.get(
-    'search',
-    queryParameters: {
-      'query': query,
-      'page': page,
-      'per_page': 20,
-    },
-  );
+    final response = await _dio.get(
+      'search',
+      queryParameters: {
+        'query': query,
+        'page': page,
+        'per_page': 20,
+      },
+    );
 
-  final List photosJson = response.data['photos'];
+    final List photosJson = response.data['photos'];
 
-  return photosJson
-      .map((json) => PhotoModel.fromJson(json))
-      .toList();
-}
+    return photosJson.map((json) => PhotoModel.fromJson(json)).toList();
+  }
+
+  Future<List<PhotoModel>> fetchCuratedPhotos({int page = 1}) async {
+    final response = await _dio.get(
+      'curated',
+      queryParameters: {
+        'page': page,
+        'per_page': 20,
+      },
+    );
+
+    final List photosJson = response.data['photos'];
+
+    return photosJson.map((json) => PhotoModel.fromJson(json)).toList();
+  }
 }
